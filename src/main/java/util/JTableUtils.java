@@ -112,8 +112,7 @@ public class JTableUtils {
             height += table.getRowHeight(height);
         setFixedSize(table, width, height);
 
-        if (table.getParent() instanceof JViewport && table.getParent().getParent() instanceof JScrollPane) {
-            JScrollPane scrollPane = (JScrollPane) table.getParent().getParent();
+        if (table.getParent() instanceof JViewport && table.getParent().getParent() instanceof JScrollPane scrollPane) {
             if (scrollPane.getRowHeader() != null) {
                 Component rowHeaderView = scrollPane.getRowHeader().getView();
                 if (rowHeaderView instanceof JList) {
@@ -209,8 +208,7 @@ public class JTableUtils {
         tableColumnWidths.put(table, defaultColWidth);
         recalcJTableSize(table);
 
-        if (table.getParent() instanceof JViewport && table.getParent().getParent() instanceof JScrollPane) {
-            JScrollPane scrollPane = (JScrollPane) table.getParent().getParent();
+        if (table.getParent() instanceof JViewport && table.getParent().getParent() instanceof JScrollPane scrollPane) {
             if (changeRowsCountButtons || changeColsCountButtons) {
                 List<Component> linkedComponents = new ArrayList<>();
 
@@ -353,8 +351,7 @@ public class JTableUtils {
                 @Override
                 public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
                     Component comp = super.getTableCellEditorComponent(table, value, isSelected, row, column);
-                    if (comp instanceof JTextField) {
-                        JTextField textField = (JTextField) comp;
+                    if (comp instanceof JTextField textField) {
                         textField.setHorizontalAlignment((value == null || value.toString().matches("|-?\\d+")) ? SwingConstants.RIGHT : SwingConstants.LEFT);
                         textField.setBorder(DEFAULT_EDITOR_CELL_BORDER);
                         textField.selectAll();  // чтобы при начале печати перезаписывать текст
@@ -397,10 +394,9 @@ public class JTableUtils {
      * @param columnWidth ширина столбца (меньше или равно 0 - не менять)
      */
     public static void resizeJTable(JTable table, int rowCount, int colCount, int rowHeight, int columnWidth) {
-        if (!(table.getModel() instanceof DefaultTableModel)) {
+        if (!(table.getModel() instanceof DefaultTableModel tableModel)) {
             return;
         }
-        DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
 
         tableColumnWidths.put(table, (columnWidth > 0) ? columnWidth : getColumnWidth(table));
         table.setRowHeight((rowHeight > 0) ? rowHeight : table.getRowHeight());
@@ -409,10 +405,9 @@ public class JTableUtils {
         recalcJTableSize(table);
     }
     public static void resizeJTable(JTable table, int colCount) {
-        if (!(table.getModel() instanceof DefaultTableModel)) {
+        if (!(table.getModel() instanceof DefaultTableModel tableModel)) {
             return;
         }
-        DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
 
         tableModel.setColumnCount((colCount > 0) ? colCount : table.getColumnCount());
         recalcJTableSize(table);
@@ -443,8 +438,7 @@ public class JTableUtils {
      * @param width Ширина
      */
     public static void setRowsHeaderColumnWidth(JTable table, int width) {
-        if (table.getParent() instanceof JViewport && table.getParent().getParent() instanceof JScrollPane) {
-            JScrollPane scrollPane = (JScrollPane) table.getParent().getParent();
+        if (table.getParent() instanceof JViewport && table.getParent().getParent() instanceof JScrollPane scrollPane) {
             if (scrollPane.getRowHeader() != null) {
                 Component rowHeaderView = scrollPane.getRowHeader().getView();
                 if (rowHeaderView instanceof JList) {
@@ -463,14 +457,13 @@ public class JTableUtils {
         if (!array.getClass().isArray()) {
             return;
         }
-        if (!(table.getModel() instanceof DefaultTableModel)) {
+        if (!(table.getModel() instanceof DefaultTableModel tableModel)) {
             return;
         }
-        DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
 
         tableColumnWidths.put(table, getColumnWidth(table));
 
-        if (itemFormat == null || itemFormat.length() == 0) {
+        if (itemFormat == null || itemFormat.isEmpty()) {
             itemFormat = "%s";
         }
         int rank = 1;
@@ -585,7 +578,7 @@ public class JTableUtils {
             for (int c = 0; c < colCount; c++) {
                 T value = null;
                 Object obj = tableModel.getValueAt(r, c);
-                if (obj == null || obj instanceof String && ((String) obj).trim().length() == 0) {
+                if (obj == null || obj instanceof String && ((String) obj).trim().isEmpty()) {
                     if (errorIfEmptyCell) {
                         throw new JTableUtilsException(String.format("Empty value on (%d, %d) cell", r, c));
                     } else {
@@ -684,7 +677,7 @@ public class JTableUtils {
     public static double[][] readDoubleMatrixFromJTable(JTable table) throws ParseException {
         try {
             Double[][] matrix = readMatrixFromJTable(table, Double.class, JTableUtils::parseDouble, false, 0.0);
-            return (double[][]) Arrays.stream(matrix).map(ArrayUtils::toPrimitive).toArray((n) -> new double[n][]);
+            return (double[][]) Arrays.stream(matrix).map(ArrayUtils::toPrimitive).toArray(double[][]::new);
         } catch (JTableUtilsException impossible) {
         }
         return null;

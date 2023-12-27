@@ -1,30 +1,30 @@
+package io.github.kh4f;
 
-public class Card {
+public record Card(int value, int suitID) {
 
-    private final int value;
-    private final int suit;
+    /*private final int value;
+    private final int suitID;
 
-    public Card(int value, int suit) {
+    public Card(int value, int suitID) {
         this.value = value;
-        this.suit = suit;
+        this.suitID = suitID;
     }
 
-    public int getCardValue() {
+    public int getValue() {
         return this.value;
     }
-
-    public int getCardSuit() {
-        return this.suit;
-    }
+    public int getSuitID() {
+        return this.suitID;
+    }*/
 
     public String toString() {
         return suitToChar() + " " + valueToString();
     }
 
     private String valueToString() {
-        String valueString;
+        String valueAsString;
         if (value > 10) {
-            valueString = switch (value) {
+            valueAsString = switch (value) {
                 case 11 -> "Jack";
                 case 12 -> "Queen";
                 case 13 -> "King";
@@ -32,17 +32,17 @@ public class Card {
                 default -> "";
             };
         } else {
-            valueString = String.valueOf(value);
+            valueAsString = String.valueOf(value);
         }
-        return valueString;
+        return valueAsString;
     }
 
     private char suitToChar() {
         char suitChar;
-        suitChar = switch (suit) {
+        suitChar = switch (suitID) {
             case 1 -> '♥';
             case 2 -> '♦';
-            case 3-> '♣';
+            case 3 -> '♣';
             case 4 -> '♠';
             default -> ' ';
         };

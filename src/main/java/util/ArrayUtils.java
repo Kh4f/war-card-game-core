@@ -139,23 +139,11 @@ public class ArrayUtils {
         return ArrayUtils.toPrimitive(arr);
     }
 
-    /*
-    // "Магия" со Stream
-
-    public static int[] strToIntArray(String str) {
-        return Arrays.stream(str.split("(\\s|[,;])+")).mapToInt(Integer::parseInt).toArray();
-    }
-
-    public static double[] strToDoubleArray(String str) {
-        return Arrays.stream(str.split("(\\s|[,;])+")).mapToDouble(Double::parseDouble).toArray();
-    }
-    */
-
     public static String toString(int[] arr, String itemFormat) {
         if (arr == null) {
             return null;
         }
-        if (itemFormat == null || itemFormat.length() == 0) {
+        if (itemFormat == null || itemFormat.isEmpty()) {
             itemFormat = "%s";
         }
         StringBuilder sb = new StringBuilder();
@@ -176,7 +164,7 @@ public class ArrayUtils {
         if (arr == null) {
             return null;
         }
-        if (itemFormat == null || itemFormat.length() == 0) {
+        if (itemFormat == null || itemFormat.isEmpty()) {
             itemFormat = "%s";
         }
         StringBuilder sb = new StringBuilder();
@@ -193,33 +181,11 @@ public class ArrayUtils {
         return toString(arr, null);
     }
 
-    /*
-    // Вариант с ипользованием класса Arrays
-
-    public static String toString(int[] arr) {
-        if (arr == null) {
-            return null;
-        }
-
-        String str = Arrays.toString(arr);
-        return str.substring(1, str.length() - 1);
-    }
-
-    public static String toString(double[] arr) {
-        if (arr == null) {
-            return null;
-        }
-
-        String str = Arrays.toString(arr);
-        return str.substring(1, str.length() - 1);
-    }
-    */
-
     public static int[] readIntArrayFromConsole(String arrName) {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             try {
-                if (arrName == null || arrName.length() == 0) {
+                if (arrName == null || arrName.isEmpty()) {
                     arrName = "";
                 } else {
                     arrName = " " + arrName;
@@ -242,7 +208,7 @@ public class ArrayUtils {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             try {
-                if (arrName == null || arrName.length() == 0) {
+                if (arrName == null || arrName.isEmpty()) {
                     arrName = "";
                 } else {
                     arrName = " " + arrName;
@@ -260,39 +226,6 @@ public class ArrayUtils {
     public static double[] readDoubleArrayFromConsole() {
         return readDoubleArrayFromConsole(null);
     }
-
-    /*
-    // Вариант с ипользованием дженериков и функциональных интерфейсов (Java 8 и старше)
-
-    public static <T> T readFromConsole(String name, java.util.function.Function<String, T> converter) {
-        Scanner scanner = new Scanner(System.in);
-        while (true) {
-            try {
-                System.out.printf("Введите %s:%n  ", name);
-                String line = scanner.nextLine();
-                return converter.apply(line);
-            }
-            catch(Exception e) {
-                System.out.print("Вы ошиблись, попробуйте еще раз! ");
-            }
-        }
-    }
-
-    private static <T> T readArrayFromConsole(String arrName, java.util.function.Function<String, T> strToArrConverter) {
-        return readFromConsole(
-            "массив" + ((arrName == null || arrName.length() == 0) ? "" : " " + arrName),
-            strToArrConverter
-        );
-    }
-
-    public static int[] readIntArrayFromConsole(String arrName) {
-        return readArrayFromConsole(arrName, ArrayUtils::toIntArray);
-    }
-
-    public static double[] readDoubleArrayFromConsole(String arrName) {
-        return readArrayFromConsole(arrName, ArrayUtils::toDoubleArray);
-    }
-    */
 
 
     /**
@@ -325,7 +258,7 @@ public class ArrayUtils {
         List<String> lines = new ArrayList<>();
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
-            if (line == null || line.trim().length() == 0)
+            if (line == null || line.trim().isEmpty())
                 break;
             lines.add(line);
         }
@@ -341,7 +274,7 @@ public class ArrayUtils {
     public static int[][] readIntArray2FromConsole(String arrName, boolean checkMatrix) {
         while (true) {
             try {
-                if (arrName == null || arrName.length() == 0) {
+                if (arrName == null || arrName.isEmpty()) {
                     arrName = "";
                 } else {
                     arrName = " " + arrName;
@@ -390,7 +323,7 @@ public class ArrayUtils {
     public static double[][] readDoubleArray2FromConsole(String arrName, boolean checkMatrix) {
         while (true) {
             try {
-                if (arrName == null || arrName.length() == 0) {
+                if (arrName == null || arrName.isEmpty()) {
                     arrName = "";
                 } else {
                     arrName = " " + arrName;
@@ -519,51 +452,43 @@ public class ArrayUtils {
         }
     }
 
-    public static void writeArrayToFile(String fileName, int[] arr, String itemFormat)
-            throws FileNotFoundException {
+    public static void writeArrayToFile(String fileName, int[] arr, String itemFormat) throws FileNotFoundException {
         try (PrintWriter out = new PrintWriter(fileName)) {
             out.println(toString(arr, itemFormat));
         }
     }
 
-    public static void writeArrayToFile(String fileName, int[] arr)
-            throws FileNotFoundException {
+    public static void writeArrayToFile(String fileName, int[] arr) throws FileNotFoundException {
         writeArrayToFile(fileName, arr, null);
     }
 
-    public static void writeArrayToFile(String fileName, double[] arr, String itemFormat)
-            throws FileNotFoundException {
+    public static void writeArrayToFile(String fileName, double[] arr, String itemFormat) throws FileNotFoundException {
         try (PrintWriter out = new PrintWriter(fileName)) {
             out.println(toString(arr, itemFormat));
         }
     }
 
-    public static void writeArrayToFile(String fileName, double[] arr)
-            throws FileNotFoundException {
+    public static void writeArrayToFile(String fileName, double[] arr) throws FileNotFoundException {
         writeArrayToFile(fileName, arr, null);
     }
 
-    public static void writeArrayToFile(String fileName, int[][] arr2, String itemFormat)
-            throws FileNotFoundException {
+    public static void writeArrayToFile(String fileName, int[][] arr2, String itemFormat) throws FileNotFoundException {
         try (PrintWriter out = new PrintWriter(fileName)) {
             out.println(toString(arr2, itemFormat));
         }
     }
 
-    public static void writeArrayToFile(String fileName, int[][] arr2)
-            throws FileNotFoundException {
+    public static void writeArrayToFile(String fileName, int[][] arr2) throws FileNotFoundException {
         writeArrayToFile(fileName, arr2, null);
     }
 
-    public static void writeArrayToFile(String fileName, double[][] arr2, String itemFormat)
-            throws FileNotFoundException {
+    public static void writeArrayToFile(String fileName, double[][] arr2, String itemFormat) throws FileNotFoundException {
         try (PrintWriter out = new PrintWriter(fileName)) {
             out.println(toString(arr2, itemFormat));
         }
     }
 
-    public static void writeArrayToFile(String fileName, double[][] arr2)
-            throws FileNotFoundException {
+    public static void writeArrayToFile(String fileName, double[][] arr2) throws FileNotFoundException {
         writeArrayToFile(fileName, arr2, null);
     }
 
