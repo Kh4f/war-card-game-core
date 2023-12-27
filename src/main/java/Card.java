@@ -4,7 +4,7 @@ public class Card {
     private final int value;
     private final int suit;
 
-    public Card(int value, char suit) {
+    public Card(int value, int suit) {
         this.value = value;
         this.suit = suit;
     }

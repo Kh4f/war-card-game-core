@@ -2,11 +2,11 @@ import java.util.*;
 
 public class Game {
 
-    private final MyQueue<Card> cardDeck1;
-    private final MyQueue<Card> cardDeck2;
+    private final LinkedList<Card> cardDeck1;
+    private final LinkedList<Card> cardDeck2;
 
-    private List<Card> faceUpCards1;
-    private List<Card> faceUpCards2;
+    private LinkedList<Card> faceUpCards1;
+    private LinkedList<Card> faceUpCards2;
 
     private int currentMove;
     private boolean isDispute;
@@ -15,9 +15,8 @@ public class Game {
     private int gameWinner;
 
     public Game() {
-        cardDeck1 = new MyQueue<>();
-        cardDeck2 = new MyQueue<>();
-
+        cardDeck1 = new LinkedList<>();
+        cardDeck2 = new LinkedList<>();
         faceUpCards1 = new LinkedList<>();
         faceUpCards2 = new LinkedList<>();
 
@@ -30,16 +29,16 @@ public class Game {
         dealCards();
     }
 
-    public MyQueue<Card> getCardDeck1() {
-        return new MyQueue<>(cardDeck1);
+    public LinkedList<Card> getCardDeck1() {
+        return new LinkedList<>(cardDeck1);
     }
-    public MyQueue<Card> getCardDeck2() {
-        return new MyQueue<>(cardDeck2);
+    public LinkedList<Card> getCardDeck2() {
+        return new LinkedList<>(cardDeck2);
     }
-    public List<Card> getFaceUpCards1() {
+    public LinkedList<Card> getFaceUpCards1() {
         return new LinkedList<>(faceUpCards1);
     }
-    public List<Card> getFaceUpCards2() {
+    public LinkedList<Card> getFaceUpCards2() {
         return new LinkedList<>(faceUpCards2);
     }
     public boolean isDispute() {
@@ -60,7 +59,8 @@ public class Game {
 
     private List<Card> getAllCards() {
         List<Card> newCommonDeck = new ArrayList<>(36);
-        for (char suit : new char[]{'♥', '♦', '♣', '♠'}) {
+        int[] suits = {1, 2, 3, 4};
+        for (int suit : suits) {
             for (int i = 6; i < 15; i++) {
                 newCommonDeck.add(new Card(i, suit));
             }
@@ -72,14 +72,14 @@ public class Game {
         currentMove++;
 
         if (moveWinner == 1) {
-            cardDeck1.addAll(fromCardCollectionToMyQueue(faceUpCards2));
-            cardDeck1.addAll(fromCardCollectionToMyQueue(faceUpCards1));
+            cardDeck1.addAll(faceUpCards2);
+            cardDeck1.addAll(faceUpCards1);
             faceUpCards1 = new LinkedList<>();
             faceUpCards2 = new LinkedList<>();
 
         } else if (moveWinner == 2) {
-            cardDeck2.addAll(fromCardCollectionToMyQueue(faceUpCards1));
-            cardDeck2.addAll(fromCardCollectionToMyQueue(faceUpCards2));
+            cardDeck2.addAll(faceUpCards1);
+            cardDeck2.addAll(faceUpCards2);
             faceUpCards1 = new LinkedList<>();
             faceUpCards2 = new LinkedList<>();
         }
@@ -139,15 +139,6 @@ public class Game {
         }
     }
 
-    public String[] fromCardMyQueueToStringArray(MyQueue<Card> cards) {
-        String[] newArr = new String[cards.size()];
-        int i = 0;
-        for (Card card : cards) {
-            newArr[i++] = card.toString();
-        }
-        return newArr;
-    }
-
     public String[] fromCardListToStringArray(List<Card> cards) {
         String[] newArr = new String[cards.size()];
         int i = 0;
@@ -155,13 +146,5 @@ public class Game {
             newArr[i++] = card.toString();
         }
         return newArr;
-    }
-
-    public MyQueue<Card> fromCardCollectionToMyQueue(Collection<Card> cardList) {
-        MyQueue<Card> cardsQueue = new MyQueue<>();
-        for (Card card : cardList) {
-            cardsQueue.addLast(card);
-        }
-        return cardsQueue;
     }
 }

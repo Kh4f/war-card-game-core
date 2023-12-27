@@ -1,11 +1,7 @@
 import util.*;
-
 import javax.swing.*;
-import javax.swing.filechooser.FileFilter;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.io.File;
 
 public class MainFrame extends JFrame {
 
@@ -45,17 +41,6 @@ public class MainFrame extends JFrame {
 
         updateViewForGameOnMyQueue();
 
-        JFileChooser fileChooserOpen = new JFileChooser();
-        JFileChooser fileChooserSave = new JFileChooser();
-        fileChooserOpen.setCurrentDirectory(new File("./src/Tests"));
-        fileChooserSave.setCurrentDirectory(new File("."));
-        FileFilter filter = new FileNameExtensionFilter("Text files", "txt");
-        fileChooserOpen.addChoosableFileFilter(filter);
-        fileChooserSave.addChoosableFileFilter(filter);
-        fileChooserSave.setAcceptAllFileFilterUsed(false);
-        fileChooserSave.setDialogType(JFileChooser.SAVE_DIALOG);
-        fileChooserSave.setApproveButtonText("Save");
-
         playCardButton.addActionListener(actionEvent -> {
             try {
                 makeMove();
@@ -77,8 +62,8 @@ public class MainFrame extends JFrame {
     private void updateViewForGameOnMyQueue() {
         currentMove.setText("Move: " + game.getCurrentMove());
 
-        writeStringCardsArrToJTable(cardDeck1Table, game.fromCardMyQueueToStringArray(game.getCardDeck1()));
-        writeStringCardsArrToJTable(cardDeck2Table, game.fromCardMyQueueToStringArray(game.getCardDeck2()));
+        writeStringCardsArrToJTable(cardDeck1Table, game.fromCardListToStringArray(game.getCardDeck1()));
+        writeStringCardsArrToJTable(cardDeck2Table, game.fromCardListToStringArray(game.getCardDeck2()));
         writeStringCardsArrToJTable(faceUpCards1Table, game.fromCardListToStringArray(game.getFaceUpCards1()));
         writeStringCardsArrToJTable(faceUpCards2Table, game.fromCardListToStringArray(game.getFaceUpCards2()));
 
