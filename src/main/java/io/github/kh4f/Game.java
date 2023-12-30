@@ -15,9 +15,14 @@ public class Game {
     private int moveWinner;
     private int gameWinner;
 
-    public Game() {
-        deck1 = new Deck();
-        deck2 = new Deck();
+    public Game() throws Deck.DeckException {
+        this(new Deck(), new Deck());
+        dealCards();
+    }
+
+    public Game(Deck filledDeck1, Deck filledDeck2) {
+        deck1 = filledDeck1;
+        deck2 = filledDeck2;
         shownCards1 = new Deck();
         shownCards2 = new Deck();
 
@@ -26,8 +31,6 @@ public class Game {
         isGameDraw = false;
         moveWinner = 0;
         gameWinner = 0;
-
-        dealCards();
     }
 
     public Deck getDeck1() {
@@ -59,51 +62,48 @@ public class Game {
     }
 
     private Deck getCommonDeck() {
-        Deck deck = new Deck();
+        Deck commonDeck = new Deck();
         int[] suits = {1, 2, 3, 4};
         for (int suit : suits) {
             for (int i = 6; i < 15; i++) {
-                deck.addLast(new Card(i, suit));
+                commonDeck.putCardOnBottom(new Card(i, suit));
             }
         }
-        return deck;
+        return commonDeck;
     }
 
-    private void dealCards(){
+    private void dealCards() throws Deck.DeckException {
         Random random = new Random();
         Deck commonDeck = getCommonDeck();
 
         int playerDeckSize = 5;
         for (int i = 0; i < playerDeckSize; i++) {
-            try {
-                deck1.addLast(commonDeck.poll(random.nextInt(commonDeck.size())));
-                deck2.addLast(commonDeck.poll(random.nextInt(commonDeck.size())));
-            } catch (DoublyLinkedList.DoublyLinkedListException e) {
-                throw new RuntimeException(e);
-            }
+            deck1.putCardOnBottom(commonDeck.takeCard(random.nextInt(commonDeck.size())));
+            deck2.putCardOnBottom(commonDeck.takeCard(random.nextInt(commonDeck.size())));
         }
     }
 
-    public void makeMove() throws DoublyLinkedList.DoublyLinkedListException {
+    public void makeMove() throws Deck.DeckException {
         currentMove++;
 
         if (moveWinner == 1) {
-            deck1.addAll(shownCards2);
-            deck1.addAll(shownCards1);
-            shownCards1.clear();
-            shownCards2.clear();
+            deck1.putAllFromOtherDeckToBottom(shownCards2);
+            deck1.putAllFromOtherDeckToBottom(shownCards1);
+            shownCards1.clearDeck();
+            shownCards2.clearDeck();
 
         } else if (moveWinner == 2) {
-            deck2.addAll(shownCards1);
-            deck2.addAll(shownCards2);
-            shownCards1.clear();
-            shownCards2.clear();
+            deck2.putAllFromOtherDeckToBottom(shownCards1);
+            deck2.putAllFromOtherDeckToBottom(shownCards2);
+            shownCards1.clearDeck();
+            shownCards2.clearDeck();
         }
 
-        shownCards1.addFirst(deck1.poll());
-        shownCards2.addFirst(deck2.poll());
+        shownCards1.putCardOnTop(deck1.takeTopCard());
+        shownCards2.putCardOnTop(deck2.takeTopCard());
 
-        int resultOfCompareCards = compareCards(shownCards1.getFirst(), shownCards2.getFirst());
+        int resultOfCompareCards = compareCards(shownCards1.checkTopCard(), shownCards2.checkTopCard());;
+
         if (resultOfCompareCards == 0) {
             isCardDispute = true;
             moveWinner = 0;

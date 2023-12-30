@@ -1,0 +1,13 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="GameTest" type="JUnit" factoryName="JUnit">
+    <module name="war-card-game-core" />
+    <option name="PACKAGE_NAME" value="io.github.kh4f" />
+    <option name="MAIN_CLASS_NAME" value="io.github.kh4f.GameTest" />
+    <option name="METHOD_NAME" value="" />
+    <option name="TEST_OBJECT" value="class" />
+    <option name="VM_PARAMETERS" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
